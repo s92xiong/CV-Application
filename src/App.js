@@ -1,61 +1,97 @@
 import React from 'react';
 import './App.css';
+import Sidebar from './components/Sidebar';
+import Contents from './components/Contents';
 import profileImage from './images/profile.png';
+import SubmitForm from './components/SubmitForm';
 
-function App() {
-  return (
-    <div className="App">
-      <div className="sidebar">
-        <img src={profileImage} alt="Profile" className="profile-image"/>
-        <div className="sidebar-content contact">
-          <div className="sidebar-header">
-            <h2>CONTACT</h2>
-            <i className="fa fa-edit"></i>
-          </div>
-          <div className="nicebar"></div>
-          <div className="sub-header address">
-            <strong>ADDRESS</strong>
-            <p>2101 E NASA Pkwy, Houston, TX 77058, United States</p>
-          </div>
-          <div className="sub-header phone">
-            <strong>PHONE</strong>
-            <p>+1-321-867-2692</p>
-          </div>
-          <div className="sub-header email">
-            <strong>EMAIL</strong>
-            <p>JonnyKimUSA@gmail.com</p>
-          </div>
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEdit: false,
+      name: "Jonny Kim",
+      email: "JonnyKimUSA@gmail.com",
+      address: "2101 E NASA Pkwy, Houston, TX 77058, United States",
+      phoneNumber: "+13218672692",
+      school: "Harvard Medical School",
+      degree: "Doctor of Medicine",
+      major: "Math",
+      graduationYear: "2016-08",
+      employer: "Massachusetts General Hospital",
+      jobTitle: "Emergency Medicine Physician",
+      startDate: "2016-09",
+      endDate: "2019-12",
+    };
+
+    this.handleEdit = this.handleEdit.bind(this);
+    this.submitForm = this.submitForm.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
+  }
+
+  handleEdit() {
+    this.setState({isEdit: !this.state.isEdit});
+  }
+
+  submitForm(e) {
+    e.preventDefault();
+    this.setState({isEdit: !this.state.isEdit});
+  }
+
+  handleValueChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  } 
+
+  render() {
+    if (this.state.isEdit) {
+      return (
+        <div className="App">
+          {/* <i className="fa fa-close" onClick={this.handleEdit}></i> */}
+          <SubmitForm 
+            imageSrc={profileImage}
+            handleSubmit={this.submitForm}
+            handleChange={this.handleValueChange}
+            name={this.state.name}
+            email={this.state.email}
+            address={this.state.address}
+            phoneNumber={this.state.phoneNumber}
+            school={this.state.school}
+            degree={this.state.degree}
+            major={this.state.major}
+            graduationYear={this.state.graduationYear}
+            employer={this.state.employer}
+            jobTitle={this.state.jobTitle}
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+          />
         </div>
-        <div className="sidebar-content education">
-        <div className="sidebar-header">
-            <h2>EDUCATION</h2>
-            <i className="fa fa-edit"></i>
-          </div>
-          <div className="nicebar"></div>
-          <div className="sub-header school">
-            <strong>SCHOOL</strong>
-            <p>University of San Diego</p>
-          </div>
-          <div className="sub-header title-of-study">
-            <strong>FACULTY</strong>
-            <p>Bachelor of Mathematics</p>
-          </div>
-        </div>
+      );
+    }
+    return (
+      <div className="App">
+        <Sidebar
+          imageSrc={profileImage}
+          email={this.state.email}
+          address={this.state.address}
+          phoneNumber={this.state.phoneNumber}
+        />
+        <Contents
+          handleClick={this.handleEdit}
+          name={this.state.name.toUpperCase()}
+          school={this.state.school}
+          degree={this.state.degree}
+          major={this.state.major}
+          graduationYear={this.state.graduationYear}
+          employer={this.state.employer}
+          jobTitle={this.state.jobTitle}
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
+        />
       </div>
-      
-      <div className="content">
-        <h1 className="title">JONNY KIM</h1>
-        <h2 className="sub-title">ASTRONAUT</h2>
-        <div className="big-nicebar"></div>
-        <h2 className="date">OCT 5, 2020</h2>
-        <div className="nicebar"></div>
-        <p className="paragraph">Dear Hiring Manager</p>
-        <p className="paragraph">I'm excited to be applying for the Software Developer position at Cloud Clearwater. With software development, there is always something new to discover. Designing a program that is truly helpful to the user is my ultimate goal on every project, and I am delighted by the opportunity to apply my knowledge at Cloud Clearwater, a top provider of cloud services.</p>        <p className="paragraph">Thank you for your time and consideration. I'm looking forward to learning more about the Software Developer position and about Cloud Clearwater. As a Software Developer, my goal is to continually increase my programming skills in order to present better solutions to my employers and their clients. I enjoy uncovering new ideas and would use them to advance Cloud Clearwater's mission to deliver viable solutions for digital storage.</p>
-        <p className="paragraph">Sincerely,</p>
-        <p className="paragraph">Jonathan Joestar</p>
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;
